@@ -1,0 +1,9 @@
+.radio-beauty-container { font-size: 0; }
+
+.radio-beauty-container .radio-beauty:hover, .radio-beauty-container input[type="radio"]:checked + .radio-beauty { padding: 2px; background-color: green; background-clip: content-box; }
+
+.radio-beauty-container .radio-name { vertical-align: middle; font-size: 16px; }
+
+.radio-beauty-container .radio-beauty { width: 18px; height: 18px; -webkit-box-sizing: border-box; box-sizing: border-box; display: inline-block; border: 1px solid green; vertical-align: middle; margin: 0 15px 0 3px; border-radius: 50%; }
+
+.radio-beauty-container .radio-beauty:hover { -webkit-box-shadow: 0 0 7px green; box-shadow: 0 0 7px green; }

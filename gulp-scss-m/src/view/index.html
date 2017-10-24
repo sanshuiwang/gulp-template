@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>店铺装修</title>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../iconfont/iconfont.css"/>
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+</head>
+
+<body class="" ontouchstart>
+<!--HD LAYOUT-->
+<div class="hd-layout">
+    <h3>装修模版：</h3>
+    <div class="radio-wrap">
+        <label for="default"><input name="shop-style" checked="checked" type="radio" id="default"/><i
+                class="r-ic"></i><span>默认模版</span></label>
+        <label for="custom"><input name="shop-style" type="radio" id="custom"/><i
+                class="r-ic"></i><span>炫酷版</span></label>
+    </div>
+</div>
+<!--SIGN LAYOUT-->
+<div class="sign-layout">
+    <h3>店招设置：</h3>
+    <span class="tip">（建议店招尺寸：1920像素x120像素）</span>
+    <input type="file" accept="image/*" class="sign-upload"/>
+    <img src="" alt="" class="sign-img"/>
+    <p class="sign-img-name">未上传店招</p>
+    <a href="javascript:;" class="upload-btn">点击上传店招</a>
+</div>
+<div class="banner-layout">
+    <h3>轮播图设置：</h3>
+    <a href="javascript:;" class="banner-btn"><i class="iconfont">&#xe604;</i>添加广告</a>
+    <!--b-item-layout -->
+    <div class="banner-item-wrap">
+        <div class="banner-item">
+            <div class="i-hd">
+                <input type="text" placeholder="点击此处编辑标题" maxlength="10"/>
+                <!--<a href="javascript:;" class="b-edit"><i class="iconfont">&#xe609;</i></a>-->
+                <a href="javascript:;" class="b-del"><i class="iconfont">&#xe62b;</i></a>
+                <a href="javascript:;" class="b-shift"><i class="iconfont">&#xe603;</i></a>
+            </div>
+            <div class="i-bd">
+                <input type="file" accept="image/*" class="banner-upload"/>
+                <img src="../images/temp.jpg" alt=""/>
+            </div>
+        </div>
+        <div class="banner-item">
+            <div class="i-hd">
+                <input type="text" placeholder="点击此处编辑标题" maxlength="10"/>
+                <!--<a href="javascript:;" class="b-edit"><i class="iconfont">&#xe609;</i></a>-->
+                <a href="javascript:;" class="b-del"><i class="iconfont">&#xe62b;</i></a>
+                <a href="javascript:;" class="b-shift"><i class="iconfont">&#xe603;</i></a>
+            </div>
+            <div class="i-bd">
+                <input type="file" accept="image/*" class="banner-upload"/>
+                <img src="../images/up.jpg" class="origin" alt=""/>
+            </div>
+        </div>
+    </div>
+</div>
+<!--BRAND LAYOUT-->
+<div class="brand-layout">
+    <h3>排行榜设置：</h3>
+
+    <div class="yxui-flex ck-wrap">
+        <label class="cell" for="ck-sales"><input id="ck-sales" name="rank" type="checkbox"
+                                                  checked="checked"/><span>按销量</span></label>
+        <label class="cell" for="ck-popular"><input id="ck-popular" name="rank" type="checkbox"
+                                                    checked="checked"/><span>按人气</span></label>
+        <label class="cell" for="ck-collection"><input id="ck-collection" name="rank" type="checkbox"/><span>按收藏</span></label>
+        <label class="cell" for="ck-price"><input id="ck-price" name="rank" type="checkbox"/><span>按价格</span></label>
+    </div>
+</div>
+<!--FOOTER BTN-->
+<div class="footer-layout">
+    <a href="javascript:;" class="back idx-back">返回</a>
+    <a href="javascript:;" class="next">下一步</a>
+</div>
+<!--TEMPLATE-->
+<script type="text/html" id="bannerItem">
+    <div class="banner-item">
+        <div class="i-hd">
+            <input type="text" placeholder="点击此处编辑标题" maxlength="10"/>
+            <!--<a href="javascript:;" class="b-edit"><i class="iconfont">&#xe609;</i></a>-->
+            <a href="javascript:;" class="b-del"><i class="iconfont">&#xe62b;</i></a>
+            <a href="javascript:;" class="b-shift"><i class="iconfont">&#xe603;</i></a>
+        </div>
+        <div class="i-bd">
+            <input type="file" accept="image/*" class="banner-upload"/>
+            <img src="../images/up.jpg" class="origin" alt=""/>
+        </div>
+    </div>
+</script>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script>
+    $(function(){
+        pageIndex.eventInit();
+    });
+
+    var pageIndex={
+        bannerItemHTML:$("#bannerItem").html(),//添加广告图的模版
+        bannerWrap:$(".banner-item-wrap"),//广告图列表的父元素
+        signUpload:$(".sign-upload"),//上传控件
+        eventInit:function(){ //初始化DOM事件
+            var that=this;
+            //下一步
+            $(document).on("click",".next",function(){
+                //保存代码放在此处
+                alert("保存成功！");
+                window.location.href="view/class.html";
+            });
+            //返回
+            $(document).on("click",".idx-back",function(){
+                //保存代码放在此处
+                alert("保存成功！");
+                window.location.href="http://m.yuexing.com/my/?mod=default&act=presonal";
+            });
+            //上传店招
+            $(document).on("click",".upload-btn",function(){
+                that.signUpload.trigger("click");
+            });
+            //上传店招
+            $(document).on("change",".sign-upload",function(){
+                that.selectSignUpload(this);
+            });
+            //添加广告
+            $(document).on("click",".banner-btn",function(){
+                $(".banner-item").length>=10&&alert("最多只能添加10条广告图！");
+                that.bannerWrap.append(that.bannerItemHTML);
+            });
+            //删除广告
+            $(document).on("click",".b-del",function(){
+                if(confirm("确认删除？")){
+                    $(this).parent().parent().remove();
+                }
+            });
+            //上传广告图
+            $(document).on("click",".origin",function(){
+                $(this).prev().trigger("click");
+            });
+            //上传广告图
+            $(document).on("change",".banner-upload",function(){
+                that.selectBannerUpload(this);
+            });
+            //上移
+            $(document).on("click",".b-shift",function(){
+                var moveItem=$(this).parent().parent();
+                var prevItem=moveItem.prev(".banner-item");
+                var mVal=moveItem.find(".i-hd input").val();
+                if(prevItem.length===0){
+                    that.bannerWrap.append(moveItem[0].outerHTML);
+                    moveItem.remove();
+                    $(".banner-item").last().find(".i-hd input").val(mVal);
+                }else{
+                    prevItem.before(moveItem[0].outerHTML);
+                    moveItem.remove();
+                    prevItem.prev().find(".i-hd input").val(mVal);
+                }
+            });
+        },
+        selectBannerUpload:function(obj){ //选择广告函数
+            var file=obj.files[0];
+            var targetImg=$(obj).next("img");
+            if(!file){
+                return;
+            }
+            var cb=function(base64){
+                targetImg.prop("src",base64).removeClass("origin");;
+            };
+            this.imgProcess(file,cb,1920,480);
+        },
+        selectSignUpload:function(obj){ //选择店招函数
+            var file=obj.files[0];
+            if(!file){
+                return;
+            }
+            $(".sign-img-name").text(file.name);
+            var cb=function(base64){
+                $(".sign-img").prop("src",base64);
+            };
+            this.imgProcess(file,cb,1920,120);
+        },
+        imgProcess:function(file,callback,maxW,maxH){ //处理图片
+            var oReader = new FileReader();
+            oReader.onload = function(e) {
+                var image = new Image();
+                image.src = e.target.result;
+                image.onload = function() {
+                    var expectWidth = this.naturalWidth;
+                    var expectHeight = this.naturalHeight;
+                    if (this.naturalWidth >= this.naturalHeight && this.naturalWidth > maxW) {
+                        expectWidth = maxW;
+                        expectHeight = expectWidth * this.naturalHeight / this.naturalWidth;
+                    } else if (this.naturalHeight > this.naturalWidth && this.naturalHeight > maxH) {
+                        expectHeight = maxH;
+                        expectWidth = expectHeight * this.naturalWidth / this.naturalHeight;
+                    }
+                    var canvas = document.createElement("canvas");
+                    var ctx = canvas.getContext("2d");
+                    canvas.width = expectWidth;
+                    canvas.height = expectHeight;
+                    ctx.drawImage(this, 0, 0, expectWidth, expectHeight);
+                    var base64 = canvas.toDataURL("image/jpeg", 0.8);
+                    callback&&callback(base64);
+                };
+            };
+            oReader.readAsDataURL(file);
+        }
+    }
+</script>
+</body>
+</html>

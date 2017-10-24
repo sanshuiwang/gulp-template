@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,minimum-scale=1,user-scalable=no">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>店铺分类</title>
+    <link rel="stylesheet" href="../css/style.css"/>
+    <link rel="stylesheet" href="../iconfont/iconfont.css"/>
+    <script>
+        var deviceWidth = document.documentElement.clientWidth;
+        document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+    </script>
+</head>
+
+<body class="white-bg" ontouchstart>
+<div class="add-wrap">
+    <a href="javascript:;" class="add-btn"><i class="iconfont">&#xe604;</i>添加主分类</a>
+</div>
+<div class="class-layout">
+    <!--b-item-layout -->
+    <div class="class-item-wrap">
+        <div class="class-item">
+            <div class="i-hd">
+                <input type="text" placeholder="点击此处编辑分类" maxlength="10"/>
+                <a href="javascript:;" class="c-del"><i class="iconfont">&#xe62b;</i></a>
+                <a href="javascript:;" class="c-expand"><i class="iconfont">&#xe60e;</i></a>
+                <a href="javascript:;" class="c-shift"><i class="iconfont">&#xe603;</i></a>
+            </div>
+            <div class="i-bd">
+
+                <div class="child-class-item">
+                    <input type="text" maxlength="10" placeholder="点击编辑子分类"/>
+                    <a href="javascript:;" class="c-del child"><i class="iconfont">&#xe62b;</i></a>
+                    <a href="javascript:;" class="c-shift child-shift"><i class="iconfont">&#xe603;</i></a>
+                </div>
+
+                <a href="javascript:;" class="add-child-btn"><i class="iconfont">&#xe604;</i>添加子分类</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--FOOTER BTN-->
+<div class="footer-layout">
+    <a href="javascript:;" class="back history">返回</a>
+    <a href="javascript:;" class="next save">保存</a>
+</div>
+<!--TEMPLATE-->
+<script type="text/html" id="classItem">
+    <div class="class-item">
+        <div class="i-hd">
+            <input type="text" placeholder="点击此处编辑分类" maxlength="10"/>
+            <a href="javascript:;" class="c-del"><i class="iconfont">&#xe62b;</i></a>
+            <a href="javascript:;" class="c-expand"><i class="iconfont">&#xe60e;</i></a>
+            <a href="javascript:;" class="c-shift"><i class="iconfont">&#xe603;</i></a>
+        </div>
+        <div class="i-bd">
+            <div class="child-class-item">
+                <input type="text" maxlength="10" placeholder="点击编辑子分类"/>
+                <a href="javascript:;" class="c-del child"><i class="iconfont">&#xe62b;</i></a>
+                <a href="javascript:;" class="c-shift child-shift"><i class="iconfont">&#xe603;</i></a>
+            </div>
+            <a href="javascript:;" class="add-child-btn"><i class="iconfont">&#xe604;</i>添加子分类</a>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="childItem">
+    <div class="child-class-item">
+        <input type="text" maxlength="10" placeholder="点击编辑子分类"/>
+        <a href="javascript:;" class="c-del child"><i class="iconfont">&#xe62b;</i></a>
+        <a href="javascript:;" class="c-shift child-shift"><i class="iconfont">&#xe603;</i></a>
+    </div>
+</script>
+<script src="../js/jquery-3.1.1.min.js"></script>
+<script>
+    $(function(){
+        pageClass.eventInit();
+    });
+
+    var pageClass={
+        _addTop:$(".add-btn").offset().top,
+        classItemHTML:$("#classItem").html(),//添加广告图的模版
+        childItemHTML:$("#childItem").html(),
+        classWrap:$(".class-item-wrap"),//广告图列表的父元素
+        eventInit:function(){ //初始化DOM事件
+            var that=this;
+            //保存
+            $(document).on("click",".save",function(){
+                //保存代码放在此处
+                alert("保存成功！");
+                window.location.href="http://m.yuexing.com/my/?mod=default&act=presonal";
+            });
+            //返回
+            $(document).on("click",".history",function(){
+                //保存代码放在此处
+                alert("保存成功！");
+                window.history.go(-1);
+            });
+            //添加主分类
+            $(document).on("click",".add-btn",function(){
+                that.classWrap.append(that.classItemHTML);
+            });
+            //添加子分类
+            $(document).on("click",".add-child-btn",function(){
+                $(this).before(that.childItemHTML);
+            });
+            //删除分类
+            $(document).on("click",".c-del",function(){
+                if(!confirm("确认删除？")){
+                    return;
+                }
+                if($(this).hasClass("child")){ //子分类
+                    $(this).parent().remove();
+                }else{
+                    $(this).parent().parent().remove();
+                }
+            });
+            //主分类上移
+            $(document).on("click",".c-shift",function(){
+                if($(this).hasClass("child-shift")){
+                    return;
+                }
+                var moveItem=$(this).parent().parent();
+                var prevItem=moveItem.prev(".class-item");
+                var mValArray=[];//保存所有值
+                moveItem.find("input").each(function(){
+                    mValArray.push($(this).val());
+                });
+                if(prevItem.length===0){
+                    that.classWrap.append(moveItem[0].outerHTML);
+                    moveItem.remove();
+                    //input的输入值无法 体现在 .outerHTML中,因此元素变化后需要重新赋值
+                    that.classWrap.find(".class-item").last().find("input").each(function(idx,obj){
+                        $(obj).val(mValArray[idx]);
+                    });
+                }else{
+                    prevItem.before(moveItem[0].outerHTML);
+                    moveItem.remove();
+                    //input的输入值无法 体现在 .outerHTML中,因此元素变化后需要重新赋值
+                    prevItem.prev().find("input").each(function(idx,obj){
+                        $(obj).val(mValArray[idx]);
+                    });
+                }
+            });
+            //子分类上移
+            $(document).on("click",".child-shift",function(){
+                var moveItem=$(this).parent();
+                var mVal=moveItem.find("input").val();
+                var prevItem=moveItem.prev(".child-class-item");
+                var addChildBtn=moveItem.siblings(".add-child-btn");
+                if(prevItem.length===0){
+                    addChildBtn.before(moveItem[0].outerHTML);
+                    moveItem.remove();
+                    //input的输入值无法 体现在 .outerHTML中,因此元素变化后需要重新赋值
+                    addChildBtn.prev().find("input").val(mVal);
+                }else{
+                    prevItem.before(moveItem[0].outerHTML);
+                    moveItem.remove();
+                    //input的输入值无法 体现在 .outerHTML中,因此元素变化后需要重新赋值
+                    prevItem.prev().find("input").val(mVal);
+                }
+            });
+            //展开
+            $(document).on("click",".c-expand",function(){
+                var bd=$(this).parent().parent().find(".i-bd");
+                if($(this).hasClass("col")){
+                    $(this).removeClass("col");
+                    bd.removeClass("hidden");
+                }else{
+                    $(this).addClass("col");
+                    bd.addClass("hidden");
+                }
+            });
+            //滚动
+            $(window).on("scroll",function(){
+               if($(this).scrollTop()>=that._addTop){
+                   $(".add-btn").css({"position":"fixed","left": "0.25rem"});
+               }else if($(this).scrollTop()<that._addTop){
+                   $(".add-btn").css({"position":"inherit","left": "0rem"});
+               }
+            });
+        }
+    }
+</script>
+</body>
+</html>
